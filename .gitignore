@@ -1,1 +1,4 @@
 jonenv/*
+.idea/*
+Casas/.idea/*
+Casas/db.sqlite3

@@ -1,9 +1,27 @@
-from casaslist_app.api.serializers import CasaSerializer
-from casaslist_app.models import Casa
+from casaslist_app.api.serializers import CasaSerializer, EmpresaSerializer
+from casaslist_app.models import Casa, Empresa
 from rest_framework.response import Response
 #from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
+
+class EmpresaAV(APIView):
+    def get(self, request):
+        empresas = Empresa.objects.all()
+        serializer = EmpresaSerializer(empresas, many = True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = EmpresaSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 class CasaListAV(APIView):
     

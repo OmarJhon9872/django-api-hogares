@@ -4,11 +4,12 @@
 
 from django.urls import path
 #from casaslist_app.api.views import casas_list, casas_show
-from casaslist_app.api.views import CasaShowAV, CasaListAV
+from casaslist_app.api.views import CasaShowAV, CasaListAV, EmpresaAV
 
+# Urls paso 3: ver archivo views.py
 urlpatterns = [
-    # Urls paso 3: ver archivo views.py
     path('list/', CasaListAV.as_view(), name='casas_list'),
     path('<int:id>', CasaShowAV.as_view(),  name='casas_show'),
-]
+    path('empresas/', EmpresaAV.as_view(), name='empresas_list'),
 
+]
