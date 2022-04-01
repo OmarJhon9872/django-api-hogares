@@ -1,21 +1,22 @@
 from rest_framework import serializers
 from casaslist_app.models import Casa
+from casaslist_app.models import Comentario
 from casaslist_app.models import Empresa
 #Para serializacion de datos se crearan los objetos encargados
 #de mapear las instancias que definiran los tipos de datos
 
-class EmpresaSerializer(serializers.ModelSerializer):
+class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Empresa
-        fields = '__all__'
-
-
-
+        model = Comentario
+        #fields = '__all__'
+        exclude = ['casa']
 
 class CasaSerializer(serializers.ModelSerializer):
+
+    comentarios = ComentarioSerializer(many=True, read_only=True)
     #Campos calculados
     #longitud_direccion = serializers.SerializerMethodField()
-    
+
     #Funcion que mapea los campos de mi modelo como en la primer definicion planteada abajo
     class Meta:
         model = Casa
@@ -24,11 +25,27 @@ class CasaSerializer(serializers.ModelSerializer):
         #exclude = ['id']
 
 
+#class EmpresaSerializer(serializers.ModelSerializer):
+class EmpresaSerializer(serializers.ModelSerializer):
+    casas_list = CasaSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Empresa
+        fields = '__all__'
 
 
 
+    #StringRelatedField Este metodo indica el retorno de la definicion __str__ del modelo serializado
+    #casas_list = serializers.StringRelatedField(many=True)
+    #casas_list = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
-
+    # casas_list = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name = 'casas-detail',
+    #     required=False,
+    #     lookup_field='id'
+    # )
         
     # def get_longitud_direccion(self, object):
     #     cantidad_caracteres = len(object.direccion)
