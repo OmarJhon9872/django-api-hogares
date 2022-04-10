@@ -6,15 +6,27 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import mixins, generics
 from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 class ComentariosCreate(generics.CreateAPIView):
     serializer_class = ComentarioSerializer
+    
+    #Para devolver el comentario al cliente
+    def get_queryset(self):
+        return Comentario.objects.all()
 
     def perform_create(self, serializer):
         pk = self.kwargs.get('id')
         casa = Casa.objects.get(pk = pk)
-        serializer.save(casa = casa)
+        
+        user = self.request.user
+        comentario_queryset = Comentario.objects.filter(casa = casa, comentario_user=user)
+        
+        if comentario_queryset.exists():
+            raise ValidationError("No se puede agregar mas de un comentario a la casa por usuario")
+        
+        serializer.save(casa = casa, comentario_user=user)
 
 
 #Clases genericas para el listado dinamico del serializer indicado y el queryset resultante
@@ -188,6 +200,7 @@ class EmpresaDetalleAV(APIView):
 #     serializer_class = CasaSerializer
 #     queryset = Casa.objects.all()
 #from rest_framework.views import APIView
+#from rest_framework.response import Response
 class CasaListAV(APIView):
 
     def get(self, request):

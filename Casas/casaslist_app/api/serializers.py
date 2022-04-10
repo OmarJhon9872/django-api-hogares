@@ -6,6 +6,8 @@ from casaslist_app.models import Empresa
 #de mapear las instancias que definiran los tipos de datos
 
 class ComentarioSerializer(serializers.ModelSerializer):
+    comentario_user = serializers.StringRelatedField(read_only=True)
+    
     class Meta:
         model = Comentario
         #fields = '__all__'
