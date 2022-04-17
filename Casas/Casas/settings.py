@@ -123,3 +123,29 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Crea las restricciones para que solo los usuarios autenticados puedan hacer solictudes a la API
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES' : [
+#         'rest_framework.permissions.IsAuthenticated'
+#     ]
+# }
+
+#Habilita la autenticacion remota via API
+#Para poder emplear la autenticacion basica se debera pasar en los headers el parametro
+#Authorization - Basic (usuario:clave en base 64 "am9uOmNvcnJlb1QxMiM=") 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
+
+#En caso de querer la autenticacion remota y la de permisos juntas hacer lo siguiente
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES' : [
+#         'rest_framework.permissions.IsAuthenticated'
+#     ],
+#    'DEFAULT_AUTHENTICATION_CLASSES': [
+#        'rest_framework.authentication.BasicAuthentication',
+#    ]
+# }

@@ -8,6 +8,8 @@ from rest_framework import mixins, generics
 from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from casaslist_app.api.permissions import AdminOrReadOnly, ComentarioUserOrReadOnly
 
 class ComentariosCreate(generics.CreateAPIView):
     serializer_class = ComentarioSerializer
@@ -26,6 +28,14 @@ class ComentariosCreate(generics.CreateAPIView):
         if comentario_queryset.exists():
             raise ValidationError("No se puede agregar mas de un comentario a la casa por usuario")
         
+        if casa.cantidad_calificaciones == 0:
+            casa.avg_calificacion = serializer.validated_data['calificacion']
+        else:
+            casa.avg_calificacion = (serializer.validated_data['calificacion'] + casa.avg_calificacion) / 2
+            
+        casa.cantidad_calificaciones += 1
+        casa.save()
+        
         serializer.save(casa = casa, comentario_user=user)
 
 
@@ -34,6 +44,9 @@ class ComentariosCreate(generics.CreateAPIView):
 class ComentariosList(generics.ListAPIView):
     #queryset = Comentario.objects.all()
     serializer_class = ComentarioSerializer
+    
+    #Atributo que verifica los permisos que debe poseer un usuario 
+    permission_classes = [IsAuthenticated]
 
     #Sobreescribimos el metodo para indicar que el retrive podra ser generico de acuerdo a la
     #casa que se vaya a indicar como parametro
@@ -45,6 +58,8 @@ class ComentariosList(generics.ListAPIView):
 
 #Clase generica que podra consultar un dato, actualizar y eliminar un comentario
 class ComentarioDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [ComentarioUserOrReadOnly]
+    
     queryset = Comentario.objects.all()
     serializer_class = ComentarioSerializer
 
@@ -86,7 +101,10 @@ class ComentarioDetail(generics.RetrieveUpdateDestroyAPIView):
 #########################################################################
 #Con la herencia de viewsets.ModelViewSet se define en automatico los verbos http get, post, put, delete
 #########################################################################
+#from rest_framework import viewsets
+#from rest_framework.permissions import IsAuthenticated
 class EmpresaVS(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
 

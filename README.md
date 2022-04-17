@@ -19,6 +19,11 @@
             <li>Uso de ViewSet</li>
             <li>Definicion de routing con ViewSets dinamico</li>
             <li>Uso de ModelView para instancia de verbos http a partir de este viewset dinamico</li>
+            <li>Implementación de autenticación basica via API</li>
+            <li>Inicio de sesión</li>
+            <li>Validación de sesión para modificación de recursos</li> 
+            <li>Asignacion dinamica tipo trigger en cada inserción de comentarios</li>
+            <li>Creacion de politicas de autorización personalizadas y por defecto</li>
         </ul>
   </li>  
 </ul>

@@ -19,6 +19,8 @@ class Casa(models.Model):
     descripcion = models.CharField(max_length = 250)
     imagen = models.TextField()
     active = models.BooleanField(default = True)
+    avg_calificacion = models.FloatField(default = 0)
+    cantidad_calificaciones = models.IntegerField(default = 0)
     create = models.DateTimeField(auto_now_add = True)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='casas_list', default=None)
     #Campo que va a desplegar en el django administration, indice que represente a cada elemento
