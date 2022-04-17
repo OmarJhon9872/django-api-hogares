@@ -24,6 +24,7 @@
             <li>Validación de sesión para modificación de recursos</li> 
             <li>Asignacion dinamica tipo trigger en cada inserción de comentarios</li>
             <li>Creacion de politicas de autorización personalizadas y por defecto</li>
+            <li>Implementacion de auth token, autenticación remota y asignacion de token</li>
         </ul>
   </li>  
 </ul>

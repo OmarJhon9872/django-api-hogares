@@ -20,5 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Urls paso 1: Para importar urls primero se importan aqui, pasamos al archivo indicado
     path('tienda/', include('casaslist_app.api.urls')),
-    path('api-auth/', include('rest_framework.urls')),
+    path('account/', include('user_app.api.urls')),
+    #Implementa el login a nivel de vista en la api e interfaz de rest framework
+    #path('api-auth/', include('rest_framework.urls')),
 ]

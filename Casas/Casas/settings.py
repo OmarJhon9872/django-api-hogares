@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'casaslist_app',
     'rest_framework',
+    #Agrega en automatico una tabla a la base de datos para almacenar tokens
+    #Primero se importa esta app, luego aqui hasta abajo esta la variable REST_FRAMEWORK con un valor TokenAuthorization 
+    #Para hacer un request pasar por los headers la llave Authorization - Token (token generado para el usuario)
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +140,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Authorization - Basic (usuario:clave en base 64 "am9uOmNvcnJlb1QxMiM=") 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        #Solicitara tras cada peticion el usuario y contraseña en base64
+        #'rest_framework.authentication.BasicAuthentication',
+        #Solicitara tras cada peticion el token generado tras la autenticacion
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
