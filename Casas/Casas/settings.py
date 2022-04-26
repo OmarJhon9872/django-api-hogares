@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #Primero se importa esta app, luego aqui hasta abajo esta la variable REST_FRAMEWORK con un valor TokenAuthorization 
     #Para hacer un request pasar por los headers la llave Authorization - Token (token generado para el usuario)
     'rest_framework.authtoken',
+    'user_app'
 ]
 
 MIDDLEWARE = [
