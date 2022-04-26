@@ -2,3 +2,9 @@ jonenv/*
 .idea/*
 Casas/.idea/*
 Casas/db.sqlite3
+Casas/Casas/__pycache__/
+Casas/casaslist_app/__pycache__/
+Casas/casaslist_app/api/__pycache__/
+Casas/casaslist_app/migrations/__pycache__/
+Casas/user_app/__pycache__/
+Casas/user_app/api/__pycache__/
